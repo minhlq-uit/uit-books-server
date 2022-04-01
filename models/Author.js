@@ -1,11 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const schema = new Schema({
+const schema = new Schema(
+  {
     firstName: String,
     secondName: String,
-}, {
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
-export const AuthorModel =  mongoose.model('Author', schema);
+export const AuthorModel = mongoose.model("Author", schema);
