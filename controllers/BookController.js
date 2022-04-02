@@ -1,53 +1,65 @@
-import { BookModel } from '../models/Book.js';
+import catchAsyncErrors from "../middleware/catchAsynErrors.js";
+import { Book } from "../models/Book.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 
-export const getBooks = async (req, res, next) => {
-    try {
-        const books = await BookModel.find();
-        res.status(200).json(books);
-    } catch (err) {
-        res.status(500).json({error: err});
-    }
-};
+// create new book
+export const createBook = catchAsyncErrors(async (req, res, next) => {
+  const book = await Book.create(req.body);
 
-export const createBook = async (req, res, next) => {
-    try {
-        const newBook = req.body;
+  res.status(201).json({
+    success: true,
+    book,
+  });
+});
+// get all book
+export const getAllBooks = catchAsyncErrors(async (req, res) => {
+  //   const feature = new Features(Book.find(), req.query).search().filter();
 
-        const book = new BookModel(newBook);
-        await book.save();
+  const books = await Book.find();
+  console.log(books);
+  res.status(200).json({
+    success: true,
+    books,
+  });
+});
+// update book by id
+export const updateBook = catchAsyncErrors(async (req, res, next) => {
+  let book = await Book.findById(req.params.id);
+  // console.log(first)
+  if (!book) {
+    return next(new ErrorHandler("Book is not found with this id", 404));
+  }
+  book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+    useUnified: false,
+  });
+  res.status(200).json({
+    success: true,
+    book,
+  });
+});
+// delete book by id
+export const deleteBook = catchAsyncErrors(async (req, res, next) => {
+  let book = await Book.findById(req.params.id);
+  if (!book) {
+    return next(new ErrorHandler("book is not found with this id", 404));
+  }
+  await book.remove();
 
-        res.status(200).send('insert success');
-    } catch (err) {
-        res.status(500).json({error: err});
-    }
-};
-
-export const updateBook = async (req, res, next) => {
-    try {
-        const updateBook = req.body;
-
-        const book = await BookModel.findOneAndUpdate(
-            { _id: updateBook._id },
-            updateBook,
-            { new: true }
-        )
-
-        res.status(200).json(book);
-    } catch (err) {
-        res.status(500).json({ error: err });
-    }
-};
-
-export const deleteBook = async (req, res, next) => {
-    try {
-        const deleteBook = req.body;
-
-        const book = await BookModel.findOneAndDelete(
-            { _id: deleteBook._id }
-        )
-        
-        res.status(200).json(book);
-    } catch (err) {
-        res.status(500).json({ error: err });
-    }
-};
+  res.status(200).json({
+    success: true,
+    message: "book deleted successfully",
+  });
+});
+// get single book detail
+export const getSingleBook = catchAsyncErrors(async (req, res, next) => {
+  let book = await Book.findById(req.params.id);
+  if (!book) {
+    return next(new ErrorHandler("book is not found with this id", 404));
+  }
+  res.status(200).json({
+    success: true,
+    book,
+  });
+});
