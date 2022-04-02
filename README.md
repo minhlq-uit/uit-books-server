@@ -1,7 +1,7 @@
-download modules
+download modules:
 npm i
 
-run server
+run server:
 npm start
 
 
