@@ -1,2 +1,8 @@
-# uit-books-server
-Đây là source code của phần Backend ứng dụng UIT Books
+download modules
+npm i
+
+run server
+npm start
+
+
+
