@@ -1,9 +1,16 @@
 import express from 'express';
-import { getAuthors, createAuthor } from '../controllers/AuthorController.js';
+import { getAllAuthors, createAuthor, updateAuthor, deleteAuthor } from '../controllers/AuthorController.js';
 const router = express.Router();
 
-router.get('/', getAuthors);
-// router.get('/create', AuthorController.create);
+router.route('/authors')
+    .get(getAllAuthors)
+
+router.route('/author')
+    .post(createAuthor)
+
+router.route('/author/:id')
+    .put(updateAuthor)
+    .delete(deleteAuthor)
 
 export default router;
 

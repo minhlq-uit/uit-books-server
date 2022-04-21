@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middleware/catchAsynErrors.js";
 import { Book } from "../models/Book.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
+import ApiFeatures from "../utils/ApiFeatures.js";
 
 // create new book
 export const createBook = catchAsyncErrors(async (req, res, next) => {
@@ -13,13 +14,23 @@ export const createBook = catchAsyncErrors(async (req, res, next) => {
 });
 // get all book
 export const getAllBooks = catchAsyncErrors(async (req, res) => {
-  //   const feature = new Features(Book.find(), req.query).search().filter();
+  
+  const resultPerPage = 4;
 
-  const books = await Book.find();
-  console.log(books);
+  const booksCount = await Book.countDocuments();
+
+  const apiFeature = new ApiFeatures(Book.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage)
+
+  const books = await apiFeature.query;
+
   res.status(200).json({
     success: true,
     books,
+    booksCount,
+    resultPerPage
   });
 });
 // update book by id

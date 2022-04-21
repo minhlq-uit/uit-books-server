@@ -11,4 +11,4 @@ const schema = new Schema(
   }
 );
 
-export const Author = mongoose.model("Author", schema);
+export const Publisher = mongoose.model("Publisher", schema);
