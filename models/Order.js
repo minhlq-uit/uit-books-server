@@ -46,9 +46,9 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      product: {
+      book: {
         type: mongoose.Schema.ObjectId,
-        ref: "Product",
+        ref: "Book",
         required: true,
       },
     },
@@ -104,4 +104,4 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-export const Order = mongoose.model("Order", oderSchema);
+export const Order = mongoose.model("Order", orderSchema);
