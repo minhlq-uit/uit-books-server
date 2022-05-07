@@ -62,6 +62,10 @@ const bookSchema = new mongoose.Schema({
     required: [true, "Please add some stoke for your Book"],
     maxLength: [3, "Stock can not exceed than 3 characters"],
   },
+  Sold: {
+    type: Number,
+    default: 0,
+  },
   numOfReviews: {
     type: Number,
     default: 0,
