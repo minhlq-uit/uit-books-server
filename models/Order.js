@@ -52,6 +52,17 @@ const orderSchema = new mongoose.Schema({
         required: true,
       },
     },
+    // {
+    //   book: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: "Book",
+    //     required: true,
+    //   },
+    //   quantity: {
+    //     type: Number,
+    //     required: true
+    //   }
+    // }
   ],
   user: {
     type: mongoose.Schema.ObjectId,

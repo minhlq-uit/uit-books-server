@@ -14,7 +14,7 @@ export const createOrder = catchAsyncErrors(async (req, res, next) => {
     shippingPrice,
     totalPrice,
   } = req.body;
-  console.log(req.body);
+
   const order = await Order.create({
     shippingInfo,
     orderItems,
@@ -32,6 +32,19 @@ export const createOrder = catchAsyncErrors(async (req, res, next) => {
     order,
   });
 });
+
+async function getInfoBooks(orders) {
+  const ordersFullInfo = orders.map(async order => {
+    const book = await Book.findById(order.book)
+    return {
+      "name": book.name,
+      "price": book.price,
+      "image": book.images[0].public_id,
+      "book": id
+    }
+  })
+  return ordersFullInfo
+}
 
 //  Get Single order
 export const getSingleOrder = catchAsyncErrors(async (req, res, next) => {
@@ -89,7 +102,7 @@ export const updateAdminOrder = catchAsyncErrors(async (req, res, next) => {
 
   if (req.body.status === "Shipped") {
     order.orderItems.forEach(async (o) => {
-      await updateStock(o.product, o.quantity);
+      await updateStock(o.book, o.quantity);
     });
   }
   order.orderStatus = req.body.status;
@@ -106,7 +119,6 @@ export const updateAdminOrder = catchAsyncErrors(async (req, res, next) => {
 
 async function updateStock(id, quantity) {
   const book = await Book.findById(id);
-
   book.Stock -= quantity;
 
   await book.save({ validateBeforeSave: false });

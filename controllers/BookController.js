@@ -14,7 +14,7 @@ export const createBook = catchAsyncErrors(async (req, res, next) => {
 });
 // get all book
 export const getAllBooks = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 4;
+  const resultPerPage = 8;
 
   const booksCount = await Book.countDocuments();
 
