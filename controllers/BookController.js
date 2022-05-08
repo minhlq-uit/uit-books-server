@@ -36,7 +36,10 @@ export const getAllBooks = catchAsyncErrors(async (req, res) => {
 // get new books
 export const getNewBooks = catchAsyncErrors(async (req, res) => {
   const resultPerPage = 4;
-  const apiFeature = new ApiFeatures(Book.find().sort({ createAt: -1 }), req.query)
+  const apiFeature = new ApiFeatures(
+    Book.find().sort({ createAt: -1 }),
+    req.query
+  )
     .search()
     .filter()
     .pagination(resultPerPage);

@@ -34,16 +34,16 @@ export const createOrder = catchAsyncErrors(async (req, res, next) => {
 });
 
 async function getInfoBooks(orders) {
-  const ordersFullInfo = orders.map(async order => {
-    const book = await Book.findById(order.book)
+  const ordersFullInfo = orders.map(async (order) => {
+    const book = await Book.findById(order.book);
     return {
-      "name": book.name,
-      "price": book.price,
-      "image": book.images[0].public_id,
-      "book": id
-    }
-  })
-  return ordersFullInfo
+      name: book.name,
+      price: book.price,
+      image: book.images[0].public_id,
+      book: id,
+    };
+  });
+  return ordersFullInfo;
 }
 
 //  Get Single order
@@ -65,7 +65,7 @@ export const getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Get all orders
 export const getAllOrders = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.user._id);
+  // console.log(req.user._id);
   const orders = await Order.find({ user: req.user._id });
   res.status(200).json({
     success: true,
