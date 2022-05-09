@@ -114,6 +114,21 @@ router.route("/books/popular").get(getPopularBooks);
  *     summary: Get all  Book
  *     tags: [Books]
  *     description: get all book
+ *     parameters:
+ *       - in: query
+ *         name: keyword
+ *         schema:
+ *           type: string
+ *         description: Search KeyWord
+ *       - in: query
+ *         schema:
+ *           type: string
+ *         description: filter
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: string
+ *         description: Page
  *     responses:
  *        200:
  *          description: success
