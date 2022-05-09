@@ -4,7 +4,7 @@ import cors from "cors";
 import connectDatabase from "./db/Database.js";
 
 // const app = express();
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 //Handling uncaught Exception
 process.on("uncaughtException", (err) => {
