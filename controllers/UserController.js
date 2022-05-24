@@ -140,7 +140,8 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 export const userDetails = catchAsyncErrors(async (req, res, next) => {
   // console.log(req.user);
-  const user = await User.findById(req.user.id);
+  const user = req.user
+  // const user = await User.findById(req.user.id);
   // console.log(req.user.id);
   res.status(200).json({
     success: true,
@@ -184,6 +185,14 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
     success: true,
     user,
   });
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "PUT, POST, GET, DELETE, PATCH, OPTIONS"
+  );
 });
 // Get All user --admin
 export const getAllUser = catchAsyncErrors(async (req, res, next) => {
