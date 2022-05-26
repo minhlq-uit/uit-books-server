@@ -2,9 +2,33 @@ import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
 import { Book } from "../models/Book.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import ApiFeatures from "../utils/ApiFeatures.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // create new book
 export const createBook = catchAsyncErrors(async (req, res, next) => {
+  let images = [];
+
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  const imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.uploader.upload(images[i], {
+      folder: "books",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+  // req.body.user = req.user.id;
   const book = await Book.create(req.body);
 
   res.status(201).json({
@@ -23,13 +47,20 @@ export const getAllBooks = catchAsyncErrors(async (req, res) => {
     .filter()
     .pagination(resultPerPage);
 
-  const books = await apiFeature.query;
+  let books = await apiFeature.query;
+
+  let filteredBooksCount = books.length;
+
+  apiFeature.pagination(resultPerPage);
+
+  products = await apiFeature.query;
 
   res.status(200).json({
     success: true,
     books,
     booksCount,
     resultPerPage,
+    filteredBooksCount,
   });
 });
 
@@ -73,6 +104,38 @@ export const updateBook = catchAsyncErrors(async (req, res, next) => {
   if (!book) {
     return next(new ErrorHandler("Book is not found with this id", 404));
   }
+
+  // Images Start Here
+  let images = [];
+
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  if (images !== undefined) {
+    // Deleting Images From Cloudinary
+    for (let i = 0; i < product.images.length; i++) {
+      await cloudinary.uploader.destroy(product.images[i].public_id);
+    }
+
+    const imagesLinks = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.uploader.upload(images[i], {
+        folder: "books",
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
+  }
+
   book = await Book.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -89,6 +152,11 @@ export const deleteBook = catchAsyncErrors(async (req, res, next) => {
   if (!book) {
     return next(new ErrorHandler("book is not found with this id", 404));
   }
+  // Deleting Images From Cloudinary
+  for (let i = 0; i < product.images.length; i++) {
+    await cloudinary.uploader.destroy(product.images[i].public_id);
+  }
+
   await book.remove();
 
   res.status(200).json({
