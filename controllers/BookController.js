@@ -51,10 +51,6 @@ export const getAllBooks = catchAsyncErrors(async (req, res) => {
 
   let filteredBooksCount = books.length;
 
-  apiFeature.pagination(resultPerPage);
-
-  products = await apiFeature.query;
-
   res.status(200).json({
     success: true,
     books,
