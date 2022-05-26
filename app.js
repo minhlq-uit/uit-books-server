@@ -7,6 +7,8 @@ import order from "./routes/order.js";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import fileUpload from "express-fileupload";
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -42,15 +44,17 @@ const specs = swaggerJsDoc(options);
 
 const app = express();
 
-const corsOptions ={
-  origin: true, 
-  // origin:'http://localhost:3000', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200
-}
+const corsOptions = {
+  origin: true,
+  // origin:'http://localhost:3000',
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 app.use("/api/v2", books);
 app.use("/api/v2", user);
