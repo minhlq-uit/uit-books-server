@@ -76,9 +76,11 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     validateBeforeSave: false,
   });
 
-  const resetPasswordUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/password/reset/${resetToken}`;
+  // const resetPasswordUrl = `${req.protocol}://${req.get(
+  //   "host"
+  // )}/password/reset/${resetToken}`;
+
+  const resetPasswordUrl = `${req.protocol}://localhost:3000/password/reset/${resetToken}`;
 
   const message = `Your password reset token is :- \n\n ${resetPasswordUrl}`;
 
@@ -152,6 +154,7 @@ export const userDetails = catchAsyncErrors(async (req, res, next) => {
 // Update userPassword
 export const updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
+  // const user = req.user.select("+password");
   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
   if (!isPasswordMatched) {
