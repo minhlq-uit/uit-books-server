@@ -4,6 +4,7 @@ import {
   createBookReview,
   deleteBook,
   deleteReview,
+  getAdminBooks,
   getAllBooks,
   getNewBooks,
   getPopularBooks,
@@ -134,6 +135,18 @@ router.route("/books/popular").get(getPopularBooks);
  *          description: success
  */
 router.route("/books").get(getAllBooks);
+/**
+ * @swagger
+ * /api/v2/admin/books:
+ *   get:
+ *     summary: Get all Books - ADMIN
+ *     tags: [Books]
+ *     description: get all books ADMIN
+ *     responses:
+ *        200:
+ *          description: success
+ */
+router.route("/admin/books").get(getAdminBooks);
 /**
  * @swagger
  * /api/v2/book/{id}:

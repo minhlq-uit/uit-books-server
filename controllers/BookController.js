@@ -77,7 +77,15 @@ export const getNewBooks = catchAsyncErrors(async (req, res) => {
     resultPerPage,
   });
 });
+// Get All Books (Admin)
+export const getAdminBooks = catchAsyncErrors(async (req, res, next) => {
+  const books = await Book.find();
 
+  res.status(200).json({
+    success: true,
+    books,
+  });
+});
 // get popular books
 export const getPopularBooks = catchAsyncErrors(async (req, res) => {
   const resultPerPage = 4;
