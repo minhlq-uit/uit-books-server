@@ -7,14 +7,14 @@ const bookSchema = new mongoose.Schema({
     required: [true, "Please enter a name of a Book"],
     trim: true,
     maxLength: [20, "Book name not exceed than 20 characters"],
-  },  
+  },
   author: {
     type: String,
     // required: [true, "Please enter a name of author"],
     trim: true,
     maxLength: [20, "Name not exceed than 20 characters"],
   },
-  Publisher: {
+  publisher: {
     type: String,
     // required: [true, "Please enter a name of Publisher"],
     trim: true,
