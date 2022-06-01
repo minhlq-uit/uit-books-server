@@ -4,6 +4,7 @@ import books from "./routes/books.js";
 import ErrorHandler from "./middleware/error.js";
 import user from "./routes/user.js";
 import order from "./routes/order.js";
+import payment from "./routes/payment.js";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import cookieParser from "cookie-parser";
@@ -59,6 +60,7 @@ app.use(fileUpload());
 app.use("/api/v2", books);
 app.use("/api/v2", user);
 app.use("/api/v2", order);
+app.use("/api/v2/", payment);
 app.use("/", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(ErrorHandler);
 app.use("*", (req, res) => {
