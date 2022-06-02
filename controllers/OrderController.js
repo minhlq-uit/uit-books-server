@@ -2,25 +2,25 @@ import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
 import { Order } from "../models/Order.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { Book } from "../models/Book.js";
+import mongodb from "mongodb";
 
 // Create Order
 export const createOrder = catchAsyncErrors(async (req, res, next) => {
-  const {
-    shippingInfo,
-    orderItems,
-    paymentInfo,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
-
+  const { shippingInfo, orderItems, paymentInfo } = req.body;
+  let itemsPrice = orderItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+  let shippingPrice = itemsPrice > 80000 ? 0 : 50000;
+  let totalPrice = itemsPrice + shippingPrice;
+  if (paymentInfo.id === "") {
+    paymentInfo.id = new mongodb.ObjectId();
+  }
   const order = await Order.create({
     shippingInfo,
     orderItems,
     paymentInfo,
     itemsPrice,
-    taxPrice,
     shippingPrice,
     totalPrice,
     paidAt: Date.now(),
@@ -74,10 +74,7 @@ export const getAllOrders = catchAsyncErrors(async (req, res, next) => {
 });
 // Get All orders ---Admin
 export const getAdminAllOrders = catchAsyncErrors(async (req, res, next) => {
-  const orders = await Order.find().populate(
-    "user",
-    "name email"
-);
+  const orders = await Order.find();
 
   let totalAmount = 0;
 

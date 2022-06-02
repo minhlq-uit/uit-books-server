@@ -6,25 +6,24 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    ward: {
+      type: String,
+      required: true,
+    },
+    district: {
+      type: String,
+      required: true,
+    },
     city: {
       type: String,
       required: true,
     },
-    state: {
-      type: String,
-      // required: true,
-    },
-
-    country: {
+    phone: {
       type: String,
       required: true,
     },
-    pinCode: {
-      type: Number,
-      // required: true,
-    },
-    phoneNo: {
-      type: Number,
+    email: {
+      type: String,
       required: true,
     },
   },
@@ -46,23 +45,16 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      author: {
+        type: String,
+        required: true,
+      },
       book: {
         type: mongoose.Schema.ObjectId,
         ref: "Book",
         required: true,
       },
     },
-    // {
-    //   book: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: "Book",
-    //     required: true,
-    //   },
-    //   quantity: {
-    //     type: Number,
-    //     required: true
-    //   }
-    // }
   ],
   user: {
     type: mongoose.Schema.ObjectId,
@@ -70,6 +62,10 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   paymentInfo: {
+    method: {
+      type: String,
+      required: true,
+    },
     id: {
       type: String,
       required: true,
@@ -81,14 +77,9 @@ const orderSchema = new mongoose.Schema({
   },
   paidAt: {
     type: Date,
-    required: true,
+    // required: true,
   },
   itemsPrice: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  taxPrice: {
     type: Number,
     required: true,
     default: 0,
