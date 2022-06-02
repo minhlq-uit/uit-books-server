@@ -38,7 +38,7 @@ export const createBook = catchAsyncErrors(async (req, res, next) => {
 });
 // get all books
 export const getAllBooks = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 8;
+  const resultPerPage = 9;
 
   const booksCount = await Book.countDocuments();
 
@@ -62,7 +62,7 @@ export const getAllBooks = catchAsyncErrors(async (req, res) => {
 
 // get new books
 export const getNewBooks = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 8;
+  const resultPerPage = 9;
   const apiFeature = new ApiFeatures(
     Book.find().sort({ createAt: -1 }),
     req.query
@@ -88,7 +88,7 @@ export const getAdminBooks = catchAsyncErrors(async (req, res, next) => {
 });
 // get popular books
 export const getPopularBooks = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 8;
+  const resultPerPage = 9;
   const apiFeature = new ApiFeatures(Book.find().sort({ Sold: -1 }), req.query)
     .search()
     .filter()
