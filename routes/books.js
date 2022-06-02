@@ -8,6 +8,7 @@ import {
   getAllBooks,
   getNewBooks,
   getPopularBooks,
+  getRatedBooks,
   getSingleBook,
   getSingleBookReviews,
   updateBook,
@@ -108,6 +109,8 @@ router.route("/books/new").get(getNewBooks);
  *          description: success
  */
 router.route("/books/popular").get(getPopularBooks);
+router.route("/books/rated").get(getRatedBooks);
+
 /**
  * @swagger
  * /api/v2/books:
