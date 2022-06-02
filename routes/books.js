@@ -6,6 +6,7 @@ import {
   deleteReview,
   getAdminBooks,
   getAllBooks,
+  getMostReviewBooks,
   getNewBooks,
   getPopularBooks,
   getRatedBooks,
@@ -109,7 +110,6 @@ router.route("/books/new").get(getNewBooks);
  *          description: success
  */
 router.route("/books/popular").get(getPopularBooks);
-router.route("/books/rated").get(getRatedBooks);
 
 /**
  * @swagger
@@ -272,6 +272,10 @@ router.route("/book/review").post(isAuthenticatedUser, createBookReview);
  *       404:
  *         description: Review was not found
  */
+
+router.route("/books/rated").get(getRatedBooks);
+router.route("/books/most-review").get(getMostReviewBooks);
+
 router
   .route("/reviews")
   .get(getSingleBookReviews)

@@ -100,11 +100,28 @@ export const getPopularBooks = catchAsyncErrors(async (req, res) => {
     resultPerPage,
   });
 });
-// get popular books
+// get rated books
 export const getRatedBooks = catchAsyncErrors(async (req, res) => {
   const resultPerPage = 9;
   const apiFeature = new ApiFeatures(
     Book.find().sort({ ratings: -1 }),
+    req.query
+  )
+    .search()
+    .filter()
+    .pagination(resultPerPage);
+  const books = await apiFeature.query;
+  res.status(200).json({
+    success: true,
+    books,
+    resultPerPage,
+  });
+});
+// get most review books
+export const getMostReviewBooks = catchAsyncErrors(async (req, res) => {
+  const resultPerPage = 9;
+  const apiFeature = new ApiFeatures(
+    Book.find().sort({ numOfReviews: -1 }),
     req.query
   )
     .search()
