@@ -60,7 +60,7 @@ app.use(fileUpload());
 app.use("/api/v2", books);
 app.use("/api/v2", user);
 app.use("/api/v2", order);
-app.use("/api/v2/", payment);
+app.use("/api/v2", payment);
 app.use("/", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(ErrorHandler);
 app.use("*", (req, res) => {

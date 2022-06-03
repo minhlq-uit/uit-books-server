@@ -88,6 +88,36 @@ export const getAdminAllOrders = catchAsyncErrors(async (req, res, next) => {
     orders,
   });
 });
+
+// Get monthly Incone --Admin
+export const getAdminMonthlyIncome = catchAsyncErrors(
+  async (req, res, next) => {
+    const date = new Date();
+
+    const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+    const previousMonth = new Date(
+      new Date().setMonth(lastMonth.getMonth() - 5)
+    );
+
+    const income = await Order.aggregate([
+      { $match: { createdAt: { $gte: previousMonth } } },
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+          sales: "$totalPrice",
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          Total: { $sum: "$sales" },
+        },
+      },
+    ]);
+    res.status(200).json(income);
+  }
+);
+
 // update Order Status ---Admin
 export const updateAdminOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);

@@ -3,6 +3,7 @@ import {
   createOrder,
   deleteOrder,
   getAdminAllOrders,
+  getAdminMonthlyIncome,
   getAllOrders,
   getSingleOrder,
   updateAdminOrder,
@@ -195,6 +196,9 @@ router
  *       404:
  *         description: Order was not found
  */
+router
+  .route("/admin/income")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getAdminMonthlyIncome);
 router
   .route("/admin/order/:id")
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateAdminOrder)
